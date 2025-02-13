@@ -8,14 +8,14 @@ import java.util.UUID;
 
 @Getter @Setter
 public class Product {
-    private String productID;
+    private String productId;
     private String productName;
     private int productQuantity;
 
     // Constructor default untuk memastikan productID selalu terisi
     public Product() {
-        if (this.productID == null || this.productID.isEmpty()) {
-            this.productID = UUID.randomUUID().toString(); // Mengisi dengan UUID
+        if (this.productId == null || this.productId.isEmpty()) {
+            this.productId = UUID.randomUUID().toString(); // Mengisi dengan UUID
         }
     }
 }

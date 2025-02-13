@@ -22,14 +22,14 @@ public class ProductRepository {
 
     public Product findById(String productID) {
         return productData.stream()
-                .filter(product -> product.getProductID().equals(productID))
+                .filter(product -> product.getProductId().equals(productID))
                 .findFirst()
                 .orElse(null);
     }
 
     public void update(Product updatedProduct) {
         productData.stream()
-                .filter(product -> product.getProductID().equals(updatedProduct.getProductID()))
+                .filter(product -> product.getProductId().equals(updatedProduct.getProductId()))
                 .findFirst()
                 .ifPresent(product -> {
                     product.setProductName(updatedProduct.getProductName());
@@ -38,7 +38,7 @@ public class ProductRepository {
     }
 
     public void delete(String productID) {
-        productData.removeIf(product -> product.getProductID().equals(productID));
+        productData.removeIf(product -> product.getProductId().equals(productID));
     }
 
 }
