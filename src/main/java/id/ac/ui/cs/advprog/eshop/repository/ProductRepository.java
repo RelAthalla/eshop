@@ -37,4 +37,8 @@ public class ProductRepository {
                 });
     }
 
+    public void delete(String productID) {
+        productData.removeIf(product -> product.getProductID().equals(productID));
+    }
+
 }
