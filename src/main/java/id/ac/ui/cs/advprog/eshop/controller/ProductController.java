@@ -36,9 +36,9 @@ public class ProductController {
         return "productList";
     }
 
-    @GetMapping("/edit/{productID}")
-    public String editProductPage(@PathVariable String productID, Model model) {
-        Product product = service.findById(productID); // mengambil produk berdasarkan ID
+    @GetMapping("/edit/{productId}")
+    public String editProductPage(@PathVariable String productId, Model model) {
+        Product product = service.findById(productId); // mengambil produk berdasarkan Id
         if (product != null) {
             model.addAttribute("product", product);
             return "editProduct"; // mengarahkan ke halaman edit
@@ -54,9 +54,9 @@ public class ProductController {
         return "redirect:/product/list";
     }
 
-    @GetMapping("/delete/{productID}")
-    public String deleteProduct(@PathVariable String productID) {
-        service.delete(productID); // memanggil service untuk menghapus produk
+    @GetMapping("/delete/{productId}")
+    public String deleteProduct(@PathVariable String productId) {
+        service.delete(productId); // memanggil service untuk menghapus produk
         return "redirect:/product/list"; // kembali ke halaman daftar produk
     }
 
