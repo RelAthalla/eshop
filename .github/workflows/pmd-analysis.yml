@@ -1,0 +1,40 @@
+name: PMD Code Analysis
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  pmd-analysis:
+    name: Run PMD Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Download PMD
+        run: |
+          wget https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.0.0-rc4/pmd-dist-7.0.0-rc4-bin.zip
+          unzip pmd-dist-7.0.0-rc4-bin.zip
+          mv pmd-bin-7.0.0-rc4 pmd
+
+      - name: Run PMD Analysis
+        run: |
+          ./pmd/bin/pmd check --dir ./src --rulesets category/java/bestpractices.xml --format text > pmd-report.txt
+
+      - name: Upload PMD Report as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pmd-report
+          path: pmd-report.txt
