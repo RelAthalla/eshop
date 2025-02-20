@@ -29,4 +29,10 @@ class ProductTest {
     void testGetProductQuantity() {
         assertEquals(100, this.product.getProductQuantity());
     }
+
+    @Test
+    void testProductIdIsGenerated() {
+        assertNotNull(product.getProductId());
+        assertFalse(product.getProductId().isEmpty());
+    }
 }

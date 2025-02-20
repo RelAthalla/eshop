@@ -14,9 +14,7 @@ public class Product {
 
     // Constructor default untuk memastikan productID selalu terisi
     public Product() {
-        if (this.productId == null || this.productId.isEmpty()) {
-            this.productId = UUID.randomUUID().toString(); // Mengisi dengan UUID
-        }
+        this.productId = UUID.randomUUID().toString();
     }
 }
 
