@@ -8,7 +8,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class ProductServiceImplTest {
@@ -30,12 +34,77 @@ class ProductServiceImplTest {
         existingProduct.setProductQuantity(100);
     }
 
-    // Positive Test: Successfully editing a product
+    // Test: Successfully creating a product
+    @Test
+    void testCreateProduct_Success() {
+        // Act
+        Product result = productService.create(existingProduct);
+
+        // Assert
+        assertEquals(existingProduct, result);
+        verify(productRepository, times(1)).create(existingProduct);
+    }
+
+    // Test: Successfully retrieving all products
+    @Test
+    void testFindAll_Success() {
+        // Arrange
+        Product product2 = new Product();
+        product2.setProductId("product-2");
+        product2.setProductName("Sabun Wangi");
+        product2.setProductQuantity(50);
+
+        List<Product> mockProductList = Arrays.asList(existingProduct, product2);
+        Iterator<Product> mockIterator = mockProductList.iterator();
+
+        when(productRepository.findAll()).thenReturn(mockIterator);
+
+        // Act
+        List<Product> result = productService.findAll();
+
+        // Assert
+        assertEquals(2, result.size());
+        assertEquals("Sampo Cap Bambang", result.get(0).getProductName());
+        assertEquals("Sabun Wangi", result.get(1).getProductName());
+        verify(productRepository, times(1)).findAll();
+    }
+
+    // Test: Successfully retrieving a product by ID
+    @Test
+    void testFindById_Success() {
+        // Arrange
+        when(productRepository.findById(existingProduct.getProductId())).thenReturn(existingProduct);
+
+        // Act
+        Product result = productService.findById(existingProduct.getProductId());
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(existingProduct.getProductId(), result.getProductId());
+        verify(productRepository, times(1)).findById(existingProduct.getProductId());
+    }
+
+    // Test: Retrieving a non-existent product by ID
+    @Test
+    void testFindById_Failure_NonExistentProduct() {
+        // Arrange
+        String nonExistentProductId = "non-existent-id";
+        when(productRepository.findById(nonExistentProductId)).thenReturn(null);
+
+        // Act
+        Product result = productService.findById(nonExistentProductId);
+
+        // Assert
+        assertNull(result);
+        verify(productRepository, times(1)).findById(nonExistentProductId);
+    }
+
+    // Test: Successfully updating a product
     @Test
     void testUpdateProduct_Success() {
         // Arrange
         Product updatedProduct = new Product();
-        updatedProduct.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        updatedProduct.setProductId(existingProduct.getProductId());
         updatedProduct.setProductName("Sampo Cap Updated");
         updatedProduct.setProductQuantity(200);
 
@@ -54,7 +123,7 @@ class ProductServiceImplTest {
         verify(productRepository, times(1)).update(updatedProduct);
     }
 
-    // Negative Test: Editing a non-existent product (simulated as no operation)
+    // Test: Attempting to update a non-existent product
     @Test
     void testUpdateProduct_Failure_NonExistentProduct() {
         Product nonExistentProduct = new Product();
@@ -69,10 +138,9 @@ class ProductServiceImplTest {
 
         // Assert
         verify(productRepository, times(1)).update(nonExistentProduct);
-        // Ensure the repository is told to update, but no validation on changes made since it doesn't exist.
     }
 
-    // Positive Test: Successfully deleting a product
+    // Test: Successfully deleting a product
     @Test
     void testDeleteProduct_Success() {
         // Act
@@ -82,7 +150,7 @@ class ProductServiceImplTest {
         verify(productRepository, times(1)).delete(existingProduct.getProductId());
     }
 
-    // Negative Test: Attempting to delete a non-existent product
+    // Test: Attempting to delete a non-existent product
     @Test
     void testDeleteProduct_Failure_NonExistentProduct() {
         String nonExistentProductId = "non-existent-id";
@@ -92,6 +160,5 @@ class ProductServiceImplTest {
 
         // Assert
         verify(productRepository, times(1)).delete(nonExistentProductId);
-        // This only confirms the call was made, as no exception is thrown in the repository for non-existing IDs.
     }
 }
