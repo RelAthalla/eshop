@@ -69,5 +69,11 @@ Reflection 2
    allowing the latest code changes to be deployed automatically upon successful pipeline execution. 
    However, the current setup could be improved by adding automated rollback mechanisms or canary deployments to enhance deployment reliability. 
    Overall, the workflow supports CI/CD principles by automating testing, quality checks, and deployment, but there is always room for further optimization.
-   
+
+# Module 3: Maintainability & OO Principles
+
+1) Explain what principles you apply to your project!
+2) Explain the advantages of applying SOLID principles to your project with examples.
+3) Explain the disadvantages of not applying SOLID principles to your project with examples.
+
 
