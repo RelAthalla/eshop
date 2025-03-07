@@ -124,3 +124,64 @@ Without DIP, testing CarController might inadvertently trigger database access o
 ❌ Reduced Reusability
 Without OCP and ISP, a monolithic interface could force components to include unnecessary functionality, increasing the risk of unintended side effects when modifying code.
 By implementing SOLID principles—through separation of CarReadService, CarWriteService, CarRepository, and a dedicated CarController—the Car domain becomes more flexible, maintainable, and testable. Ignoring these principles leads to a tightly coupled, rigid architecture that is difficult to modify as business requirements evolve.
+
+# Module 4: Test-Driven Development & Refactoring
+
+1) Reflection on the TDD Flow (Based on Percival 2017)
+
+The TDD cycle employed in our project has proven to be useful in several ways:
+
+Rapid Feedback:
+With TDD, we are able to see quickly when changes affect our functionality. The immediate feedback helps to catch regressions early.
+
+Guided Development:
+Writing tests first has clarified the intended behavior of service operations (such as creating, updating, and deleting cars) and ensured that our design meets the business requirements.
+
+Design Improvement:
+Following the TDD approach has encouraged better layering (e.g., using service interfaces for car operations) and enhanced adherence to SOLID principles.
+
+However, there are areas for improvement:
+
+Edge Case Coverage:
+Next time, I would focus more on identifying and testing extreme cases (e.g., what happens when a car is not found during an update or delete operation).
+
+Test Readability and Maintenance:
+I need to invest more time in writing clear test names and organizing tests (possibly grouping related test scenarios) to ensure they remain maintainable as the code evolves.
+
+Increased Refactoring:
+As the project grows, continuously refactoring tests, as well as production code, will be essential. I would plan for regular review sessions to ensure tests still map well to the evolving requirements.
+
+2) Reflection on the F.I.R.S.T. Principle in Our Unit Tests
+
+The tests created in our tutorial have largely followed the F.I.R.S.T. guidelines:
+
+Fast:
+The tests are designed to run quickly without involving external resources (e.g., the unit tests for services are using mocks).
+
+Independent:
+Tests focus on isolated functionalities. Each test sets up its context and does not rely on a shared state, making them independent of one another.
+
+Repeatable:
+The tests consistently yield the same results regardless of the order in which they are run, ensuring reliability.
+
+Self-Verifying:
+The assertions are clear (like checking expected values, verifying exceptions with assertThrows, etc.), ensuring that test results are self-verifying without manual inspection.
+
+Timely:
+Tests are written immediately while developing features (or even beforehand, following TDD), which contributes to timely feedback and helps avoid delays.
+
+Nonetheless, there are aspects to enhance:
+
+Enhancing Test Granularity:
+In a few cases, tests could be split further to isolate behaviors even more strictly. Some tests might be testing multiple concerns at once and could be simplified.
+
+Parameterized Testing:
+To reduce code duplication and cover more scenarios with minor variations, I plan to adopt parameterized tests where applicable.
+
+Documentation:
+Better inline comments or documentation for tests can further clarify their purpose, especially when dealing with edge cases.
+
+By addressing these points, future tests will adhere even more strictly to F.I.R.S.T. principles, making our test suite robust, maintainable, and well-suited for the rapid iterations demanded by TDD.
+
+Overall, while the current TDD workflow and tests are effective, planning for more thorough edge-case scenarios and enhanced clarity in tests will improve our testing objectives in future iterations.
+
